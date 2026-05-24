@@ -1,22 +1,73 @@
+function addSubject(){
+
+const container =
+document.getElementById("subjects");
+
+const div =
+document.createElement("div");
+
+div.className = "subject";
+
+div.innerHTML = `
+<input type="number" class="credit" placeholder="Credits">
+
+<select class="grade">
+<option value="10">O (10)</option>
+<option value="9">A+ (9)</option>
+<option value="8">A (8)</option>
+<option value="7">B+ (7)</option>
+<option value="6">B (6)</option>
+<option value="5">C (5)</option>
+<option value="0">F (0)</option>
+</select>
+`;
+
+container.appendChild(div);
+}
+
 function calculateCGPA(){
 
-let c1=parseFloat(document.getElementById("credit1").value)||0;
-let c2=parseFloat(document.getElementById("credit2").value)||0;
-let c3=parseFloat(document.getElementById("credit3").value)||0;
+let credits =
+document.querySelectorAll(".credit");
 
-let g1=parseFloat(document.getElementById("grade1").value);
-let g2=parseFloat(document.getElementById("grade2").value);
-let g3=parseFloat(document.getElementById("grade3").value);
+let grades =
+document.querySelectorAll(".grade");
 
-let totalCredits=c1+c2+c3;
+let totalCredits = 0;
+let totalPoints = 0;
 
-if(totalCredits===0){
-document.getElementById("result").innerHTML="Enter credits";
+for(let i=0;i<credits.length;i++){
+
+let credit =
+parseFloat(credits[i].value) || 0;
+
+let grade =
+parseFloat(grades[i].value);
+
+totalCredits += credit;
+totalPoints += credit * grade;
+}
+
+if(totalCredits === 0){
+
+document.getElementById("result").innerHTML =
+"Enter valid credits";
+
+document.getElementById("percentage").innerHTML =
+"Percentage: -";
+
 return;
 }
 
-let cgpa=((c1*g1)+(c2*g2)+(c3*g3))/totalCredits;
+let cgpa =
+totalPoints / totalCredits;
 
-document.getElementById("result").innerHTML=
-"Your CGPA: "+cgpa.toFixed(2);
+let percentage =
+(cgpa - 0.75) * 10;
+
+document.getElementById("result").innerHTML =
+"Your CGPA: " + cgpa.toFixed(2);
+
+document.getElementById("percentage").innerHTML =
+"Percentage: " + percentage.toFixed(2) + "%";
 }
